@@ -17,13 +17,13 @@ class Hero {
     this.position += 1;
   }
 
-  attack(trackLength) {
+  attack() {
     // Атакуем.
     // this.boomerang.fly();
     if (this.hasBoomerang) {
-      this.boomerang.position = this.position + 1
-      this.boomerang.fly(trackLength);
-      this.hasBoomerang = false;
+      this.boomerang.position = this.position
+      this.boomerang.fly();
+      // this.hasBoomerang = false;
     }
   }
 

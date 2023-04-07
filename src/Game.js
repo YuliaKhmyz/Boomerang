@@ -30,14 +30,21 @@ class Game {
     this.track[this.hero.position] = this.hero.skin;
     this.track[this.enemy.position] = this.enemy.skin;
     this.track[this.hero.boomerang.position] = this.hero.boomerang.skin;
-    // this.track[this.boomerang.position] = this.boomerang.skin
   }
 
   check() {
     if (this.hero.position === this.enemy.position) {
       this.hero.die();
     }
+    if (this.hero.boomerang.position === this.enemy.position) {
+      this.enemy.dieEnemy();
+       
+    }
     // this.enemy.generateSkin();
+  }
+
+  boomerangMove() {
+    this.hero.boomerang.moveRight();
   }
 
   play() {
@@ -48,8 +55,9 @@ class Game {
       // Let's play!
       this.regenerateTrack();
       this.check();
+      this.boomerangMove();
       this.view.render(this.track);
-    }, 50);
+    }, 500);
   }
 }
 

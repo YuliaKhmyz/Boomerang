@@ -19,7 +19,7 @@ const keypress = require('keypress');
 
 // Какая-то функция.
 
-function runInteractiveConsole(hero, trackLength) {
+function runInteractiveConsole(hero) {
   const keyboard = {
     // q: () => console.log('q'),
     // w: () => console.log('w'),
@@ -27,7 +27,7 @@ function runInteractiveConsole(hero, trackLength) {
     // r: () => console.log('r'),
     // t: () => console.log('t'),
     // y: () => console.log('y'),
-    space: () => hero.attack(trackLength) 
+    space: () => hero.attack() 
   };
 
   keypress(process.stdin);

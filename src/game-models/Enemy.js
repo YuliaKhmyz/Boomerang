@@ -19,7 +19,7 @@ class Enemy {
   }
 
   dieEnemy() {
-          this.generateSkin() = 
+    this.generateSkin();
     console.log('Enemy is dead!');
   
 }
