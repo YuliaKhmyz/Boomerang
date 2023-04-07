@@ -5,16 +5,18 @@
 // const Enemy = require('./Enemy');
 // const enemy = new Enemy();
 class Boomerang {
-  constructor(skin, position) {
-    this.skin = skin||'🌀';
+  constructor(skin, position, direction) {
+    this.skin = skin ||'🌀';
     this.position = position || 1;
+    this.direction = direction;
   }
 
-  fly() {
-    while(this.position < enemy.position){
-    this.moveRight();
+  fly(trackLength) {
+    this.direction = 1;
+    for (let i = this.position; i < trackLength - 1; i++) {
+      this.position += 1;
     }
-    this.moveLeft();
+    // this.moveLeft();
   }
 
   moveLeft() {

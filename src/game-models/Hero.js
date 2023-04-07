@@ -4,6 +4,7 @@ class Hero {
     this.skin = '🤠'; // можете использовать любые emoji '💃'
     this.position = position;
     this.boomerang = boomerang;
+    this.hasBoomerang = true;
   }
 
   moveLeft() {
@@ -16,10 +17,14 @@ class Hero {
     this.position += 1;
   }
 
-  attack() {
+  attack(trackLength) {
     // Атакуем.
-    if()
-    this.boomerang.fly(this.position+1);
+    // this.boomerang.fly();
+    if (this.hasBoomerang) {
+      this.boomerang.position = this.position + 1
+      this.boomerang.fly(trackLength);
+      this.hasBoomerang = false;
+    }
   }
 
   die() {

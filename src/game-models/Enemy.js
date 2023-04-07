@@ -3,15 +3,14 @@ const Boomerang = require("./Boomerang");
 const boomerang = new Boomerang();
 
 class Enemy {
-  constructor(position, skin) {
-    this.skin = this.generateSkin();
+  constructor(position) {
+    this.generateSkin();
     this.position = position;
   }
 
   generateSkin() {
     const skins = ['👾', '💀', '👹', '👻', '👽', '👿', '💩', '🤡', '🤺', '🧛', '🧟', '🎃'];
-    let skin = skins[Math.floor(Math.random() * skins.length)];
-    return skin;
+    this.skin = skins[Math.floor(Math.random() * skins.length)];
   }
 
   moveLeft() {
