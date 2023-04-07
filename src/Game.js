@@ -26,8 +26,9 @@ class Game {
     // в единую структуру данных
     this.track = (new Array(this.trackLength)).fill(' ');
     this.track[this.hero.position] = this.hero.skin;
-    this.track[this.hero.boomerang.position] = this.hero.boomerang.skin;
     this.track[this.enemy.position] = this.enemy.generateSkin();
+    this.track[this.hero.boomerang.position] = this.hero.boomerang.skin;
+
   }
 
   check() {
@@ -37,10 +38,12 @@ class Game {
   }
 
   play() {
+    // runInteractiveConsole(this.hero);
+    this.regenerateTrack();
+
     setInterval(() => {
       // Let's play!
       this.check();
-      this.regenerateTrack();
       this.view.render(this.track);
     }, 50);
   }
