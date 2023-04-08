@@ -1,11 +1,11 @@
 // Импортируем всё необходимое.
 // Или можно не импортировать,
 // а передавать все нужные объекты прямо из run.js при инициализации new Game().
-
+const BackgroundMusic = require('./sound');
 const Hero = require('./game-models/Hero');
 const Enemy = require('./game-models/Enemy');
 const Boomerang = require('./game-models/Boomerang');
-const runInteractiveConsole = require('./keyboard')
+const runInteractiveConsole = require('./keyboard');
 
 const boomerang = new Boomerang();
 const View = require('./View');
@@ -20,6 +20,7 @@ class Game {
     this.enemy = new Enemy(50);
     this.view = new View();
     this.track = [];
+    this.backgroundMusic = new BackgroundMusic();
     this.regenerateTrack();
     this.scores = 0;
   }
@@ -35,6 +36,7 @@ class Game {
 
   check() {
     if(this.hero.boomerang.position >= this.enemy.position) {
+      this.backgroundMusic.twirl();
       this.enemy.die();
       this.hero.scores += 5;
       this.hero.boomerang.position = this.hero.position + 1;
@@ -43,14 +45,15 @@ class Game {
       }, 50);
     }
     if (this.hero.position === this.enemy.position) {
+      this.backgroundMusic.hold();
       this.hero.die();
     }
   }
 
 
   play() {
+    this.backgroundMusic.glitch();
     runInteractiveConsole(this.hero, this.track.length);
-    // this.regenerateTrack();
 
     setInterval(() => {
       // Let's play!
@@ -58,7 +61,7 @@ class Game {
       this.regenerateTrack();
       this.check();
       this.view.render(this.track);
-    }, 1000);
+    }, 50);
   }
 }
 
