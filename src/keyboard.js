@@ -3,40 +3,22 @@
 // Главное не используй всё вместе!
 
 const keypress = require('keypress');
-const BackgroundMusic = require('./sound');
 
 // Управление.
 // Настроим соответствия нажатий на клавиши и действий в игре.
 
-// const keyboard = {
-//   // q: () => console.log('q'),
-//   // w: () => console.log('w'),
-//   // e: () => console.log('e'),
-//   // r: () => console.log('r'),
-//   // t: () => console.log('t'),
-//   // y: () => console.log('y'),
-//   space: (hero) => hero.attack() 
-// };
+const keyboard = {
+  q: () => console.log('q'),
+  w: () => console.log('w'),
+  e: () => console.log('e'),
+  r: () => console.log('r'),
+  t: () => console.log('t'),
+  y: () => console.log('y'),
+};
 
 // Какая-то функция.
 
-function runInteractiveConsole(hero) {
-  this.backgroundMusic = new BackgroundMusic();
-  const keyboard = {
-    // q: () => console.log('q'),
-    // w: () => console.log('w'),
-    // e: () => console.log('e'),
-    // r: () => console.log('r'),
-    // t: () => console.log('t'),
-    // y: () => console.log('y'),
-    space: () => {
-    this.backgroundMusic.congratulations();
-    hero.attack();
-  },
-    left: () => hero.moveLeft(),
-    right: () => hero.moveRight(),
-  };  
-
+function runInteractiveConsole() {
   keypress(process.stdin);
   process.stdin.on('keypress', (ch, key) => {
     if (key) {
@@ -55,6 +37,4 @@ function runInteractiveConsole(hero) {
 
 // Давай попробуем запустить этот скрипт!
 
-// runInteractiveConsole();
-
-module.exports = runInteractiveConsole
+runInteractiveConsole();

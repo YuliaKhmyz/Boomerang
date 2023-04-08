@@ -1,13 +1,10 @@
 // Импортируем всё необходимое.
 // Или можно не импортировать,
 // а передавать все нужные объекты прямо из run.js при инициализации new Game().
-const BackgroundMusic = require('./sound');
+
 const Hero = require('./game-models/Hero');
 const Enemy = require('./game-models/Enemy');
-const Boomerang = require('./game-models/Boomerang');
-const runInteractiveConsole = require('./keyboard');
-
-const boomerang = new Boomerang();
+// const Boomerang = require('./game-models/Boomerang');
 const View = require('./View');
 
 // Основной класс игры.
@@ -16,13 +13,11 @@ const View = require('./View');
 class Game {
   constructor({ trackLength }) {
     this.trackLength = trackLength;
-    this.hero = new Hero(0, boomerang); // Герою можно аргументом передать бумеранг.
-    this.enemy = new Enemy(50);
+    this.hero = new Hero(); // Герою можно аргументом передать бумеранг.
+    this.enemy = new Enemy();
     this.view = new View();
     this.track = [];
-    this.backgroundMusic = new BackgroundMusic();
     this.regenerateTrack();
-    this.scores = 0;
   }
 
   regenerateTrack() {
@@ -30,38 +25,21 @@ class Game {
     // в единую структуру данных
     this.track = (new Array(this.trackLength)).fill(' ');
     this.track[this.hero.position] = this.hero.skin;
-    this.track[this.hero.boomerang.position] = this.hero.boomerang.skin;
-    this.track[this.enemy.position] = this.enemy.skin;
   }
 
   check() {
-    if(this.hero.boomerang.position >= this.enemy.position) {
-      this.backgroundMusic.twirl();
-      this.enemy.die();
-      this.hero.scores += 5;
-      this.hero.boomerang.position = this.hero.position + 1;
-      setInterval(() => {
-        this.hero.boomerang.moveLeft();
-      }, 50);
-    }
     if (this.hero.position === this.enemy.position) {
-      this.backgroundMusic.hold();
       this.hero.die();
     }
   }
 
-
   play() {
-    this.backgroundMusic.glitch();
-    runInteractiveConsole(this.hero, this.track.length);
-
     setInterval(() => {
       // Let's play!
-      this.enemy.moveLeft();
-      this.regenerateTrack();
       this.check();
+      this.regenerateTrack();
       this.view.render(this.track);
-    }, 50);
+    });
   }
 }
 
