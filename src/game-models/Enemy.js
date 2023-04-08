@@ -1,11 +1,9 @@
 // Враг.
-const Boomerang = require("./Boomerang");
-const boomerang = new Boomerang();
 
 class Enemy {
   constructor(position) {
     this.generateSkin();
-    this.position = position;
+    this.position = position || 50;
   }
 
   generateSkin() {
@@ -18,11 +16,13 @@ class Enemy {
     this.position -= 1;
   }
 
-  dieEnemy() {
+  die() {
+    this.position = undefined;
     this.generateSkin();
-    console.log('Enemy is dead!');
-  
-}
+    this.position = 50;
+    // this.position = this.generateSkin();
+    // console.log('Enemy is dead!');
+  }
 }
 
 module.exports = Enemy;

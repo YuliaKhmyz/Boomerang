@@ -17,10 +17,12 @@ class Game {
   constructor({ trackLength }) {
     this.trackLength = trackLength;
     this.hero = new Hero(0, boomerang); // Герою можно аргументом передать бумеранг.
-    this.enemy = new Enemy(this.trackLength);
+    this.enemy = new Enemy(50);
     this.view = new View();
     this.track = [];
     this.regenerateTrack();
+    this.scores = 0;
+    this.victoryScores = 5;
   }
 
   regenerateTrack() {
@@ -28,24 +30,24 @@ class Game {
     // в единую структуру данных
     this.track = (new Array(this.trackLength)).fill(' ');
     this.track[this.hero.position] = this.hero.skin;
-    this.track[this.enemy.position] = this.enemy.skin;
     this.track[this.hero.boomerang.position] = this.hero.boomerang.skin;
+    this.track[this.enemy.position] = this.enemy.skin;
   }
 
   check() {
+    if(this.hero.boomerang.position >= this.enemy.position) {
+      this.enemy.die();
+      this.hero.scores += 5;
+      this.hero.boomerang.position = this.hero.position + 1;
+      setInterval(() => {
+        this.hero.boomerang.moveLeft();
+      }, 50);
+    }
     if (this.hero.position === this.enemy.position) {
       this.hero.die();
     }
-    if (this.hero.boomerang.position === this.enemy.position) {
-      this.enemy.dieEnemy();
-       
-    }
-    // this.enemy.generateSkin();
   }
 
-  boomerangMove() {
-    this.hero.boomerang.moveRight();
-  }
 
   play() {
     runInteractiveConsole(this.hero, this.track.length);
@@ -53,11 +55,11 @@ class Game {
 
     setInterval(() => {
       // Let's play!
+      this.enemy.moveLeft();
       this.regenerateTrack();
       this.check();
-      this.boomerangMove();
       this.view.render(this.track);
-    }, 500);
+    }, 1000);
   }
 }
 

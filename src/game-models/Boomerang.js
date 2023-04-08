@@ -12,12 +12,9 @@ class Boomerang {
   }
 
   fly() {
-    this.position += 1;
+    this.position = this.position + 1;
     // this.direction = 1;
-    // this.moveRight()
-    // for (let i = this.position; i < trackLength - 2; i++) {
-    //   this.position += 1;
-    // }
+
     // this.moveLeft();
   }
 

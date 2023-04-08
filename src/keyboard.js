@@ -27,7 +27,9 @@ function runInteractiveConsole(hero) {
     // r: () => console.log('r'),
     // t: () => console.log('t'),
     // y: () => console.log('y'),
-    space: () => hero.attack() 
+    space: () => hero.attack(),
+    left: () => hero.moveLeft(),
+    right: () => hero.moveRight(),
   };
 
   keypress(process.stdin);

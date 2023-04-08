@@ -1,10 +1,10 @@
-// Сделаем отдельный класс для отображения игры в консоли.
+ // Сделаем отдельный класс для отображения игры в консоли.
 
 
 class View {
 
   render(track) {
-    const yourTeamName = 'Elbrus';
+    const yourTeamName = `Yulia's team`;
 
     // Тут всё рисуем.
     console.clear();
@@ -15,3 +15,4 @@ class View {
 }
 
 module.exports = View;
+ 
