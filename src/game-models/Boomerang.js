@@ -8,14 +8,10 @@ class Boomerang {
   constructor(skin, position, direction) {
     this.skin = skin ||'🌀';
     this.position = position || 1;
-    // this.direction = direction;
   }
 
   fly() {
     this.position += 1;
-    // this.direction = 1;
-
-    // this.moveLeft();
   }
 
   moveLeft() {
