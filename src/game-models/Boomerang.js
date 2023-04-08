@@ -2,15 +2,20 @@
 // В дальнейшем можно добавить другое оружие.
 // Тогда можно будет создать класс Weapon и воспользоваться наследованием!
 
+// const Enemy = require('./Enemy');
+// const enemy = new Enemy();
 class Boomerang {
-  constructor() {
-    this.skin = '🌀';
-    this.position = 0;
+  constructor(skin, position, direction) {
+    this.skin = skin ||'🌀';
+    this.position = position || 1;
+    // this.direction = direction;
   }
 
   fly() {
-    this.moveRight();
-    this.moveLeft();
+    this.position += 1;
+    // this.direction = 1;
+
+    // this.moveLeft();
   }
 
   moveLeft() {
