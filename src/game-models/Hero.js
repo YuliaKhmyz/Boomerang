@@ -1,9 +1,13 @@
 // Наш герой.
+const player = require('play-sound')(opts = {});
 
 class Hero {
-  constructor({ position }) {
+  constructor( position, boomerang) {
     this.skin = '🤠'; // можете использовать любые emoji '💃'
     this.position = position;
+    this.boomerang = boomerang;
+    this.hasBoomerang = true;
+    this.scores = 0;
   }
 
   moveLeft() {
@@ -13,17 +17,22 @@ class Hero {
 
   moveRight() {
     // Идём вправо.
-    this.position += 1;
+    this.position += 5;
   }
 
   attack() {
     // Атакуем.
-    this.boomerang.fly();
+    setInterval(() => {
+      // Let's play!
+      this.boomerang.fly();
+    }, 50);
   }
+  
 
   die() {
     this.skin = '💀';
     console.log('YOU ARE DEAD!💀');
+    console.log(`YOUR SCORE IS ${this.scores}`)
     process.exit();
   }
 }
