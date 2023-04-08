@@ -22,7 +22,6 @@ class Game {
     this.track = [];
     this.regenerateTrack();
     this.scores = 0;
-    this.victoryScores = 5;
   }
 
   regenerateTrack() {
