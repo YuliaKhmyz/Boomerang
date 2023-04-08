@@ -12,7 +12,7 @@ class Boomerang {
   }
 
   fly() {
-    this.position = this.position + 1;
+    this.position += 1;
     // this.direction = 1;
 
     // this.moveLeft();

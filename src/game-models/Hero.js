@@ -12,7 +12,7 @@ class Hero {
 
   moveLeft() {
     // Идём влево.
-    this.position -= 1;
+    this.position -= 5;
   }
 
   moveRight() {
@@ -27,9 +27,8 @@ class Hero {
       this.boomerang.fly();
     }, 50);
   }
-  
 
-  die() {
+  die() {  
     this.skin = '💀';
     console.log('YOU ARE DEAD!💀');
     console.log(`YOUR SCORE IS ${this.scores}`)
