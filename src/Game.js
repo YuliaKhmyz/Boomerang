@@ -58,7 +58,7 @@ class Game {
       this.regenerateTrack();
       this.check();
       this.view.render(this.track);
-    }, 1000);
+    }, 50);
   }
 }
 
