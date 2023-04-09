@@ -27,23 +27,43 @@ class Game {
     this.enemies_count = 0;
   }
 
-  fillInDataBase = async () =>  {
+  async fillInDataBase() {
     try {
-      const player = await User.findOrCreate({
+      const user = await User.findOrCreate({
         where: { username: `${process.argv[2]}` },
+        
       });
       const result = await Games_statistic.create({
-        user_id: player[0].dataValues.id,
+        user_id: user[0].dataValues.id,
         scores: this.hero.scores,
         enemies_count: this.enemies_count,
       });
-      this.hero.scores = 0;
+      // this.hero.scores = 0;
       process.exit();
       return result;
     } catch (err) {
       console.log(err);
     }
   };
+
+  // createDataBase = async () => {
+  //   try {
+  //     const user = await User.findOrCreate({
+  //       where: {name: `${process.argv[2]}`},
+  //     });
+  //     const res = await Games_statistic.create({
+  //       player_id: user[0].dataValues.id,
+  //       points: this.hero.points,
+  //       game_time: this.timeScore,
+  //       dead_enemies: this.deadEnemies,
+  //     });
+  //     this.hero.scores = 0;
+  //     process.exit();
+  //     return res;
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
 
   regenerateTrack() {
     // Сборка всего необходимого (герой, враг(и), оружие)
@@ -66,9 +86,9 @@ class Game {
       }, 50);
     }
     if (this.hero.position === this.enemy.position) {
+      this.fillInDataBase();
       this.backgroundMusic.hold();
       this.hero.die();
-      this.fillInDataBase();
     }
   }
 
