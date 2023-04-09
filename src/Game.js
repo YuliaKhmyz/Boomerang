@@ -6,7 +6,7 @@ const Hero = require('./game-models/Hero');
 const Enemy = require('./game-models/Enemy');
 const Boomerang = require('./game-models/Boomerang');
 const runInteractiveConsole = require('./keyboard');
-const { User, Games_statistic } = require("../db/models");
+const { User, Game, sequelize } = require('../db/models');
 
 const boomerang = new Boomerang();
 const View = require('./View');
@@ -14,7 +14,7 @@ const View = require('./View');
 // Основной класс игры.
 // Тут будут все настройки, проверки, запуск.
 
-class Game {
+class GameMain {
   constructor({ trackLength }) {
     this.trackLength = trackLength;
     this.hero = new Hero(0, boomerang); // Герою можно аргументом передать бумеранг.
@@ -23,47 +23,27 @@ class Game {
     this.track = [];
     this.backgroundMusic = new BackgroundMusic();
     this.regenerateTrack();
-    this.scores = 0;
     this.enemies_count = 0;
   }
 
   async fillInDataBase() {
+    const name = `${process.argv[2]}`;
     try {
-      const user = await User.findOrCreate({
-        where: { username: `${process.argv[2]}` },
-        
+      const user = await User.create({
+        where: { username: name },
       });
-      const result = await Games_statistic.create({
+
+      await Game.create({
         user_id: user[0].dataValues.id,
         scores: this.hero.scores,
         enemies_count: this.enemies_count,
       });
-      // this.hero.scores = 0;
-      process.exit();
-      return result;
+
+      await sequelize.close();
     } catch (err) {
       console.log(err);
     }
   };
-
-  // createDataBase = async () => {
-  //   try {
-  //     const user = await User.findOrCreate({
-  //       where: {name: `${process.argv[2]}`},
-  //     });
-  //     const res = await Games_statistic.create({
-  //       player_id: user[0].dataValues.id,
-  //       points: this.hero.points,
-  //       game_time: this.timeScore,
-  //       dead_enemies: this.deadEnemies,
-  //     });
-  //     this.hero.scores = 0;
-  //     process.exit();
-  //     return res;
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // };
 
   regenerateTrack() {
     // Сборка всего необходимого (герой, враг(и), оружие)
@@ -106,4 +86,4 @@ class Game {
   }
 }
 
-module.exports = Game;
+module.exports = GameMain;

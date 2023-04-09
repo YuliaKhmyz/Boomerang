@@ -1,9 +1,9 @@
 // Основной файл.
 // Запускает игру.
-const Game = require('./src/Game');
+const GameMain = require('./src/Game');
 
 // Инициализация игры с настройками.
-const game = new Game({
+const game = new GameMain({
   trackLength: 50,
 });
 

@@ -4,7 +4,7 @@
 module.exports = {
   async up (queryInterface, Sequelize) {
     await queryInterface.bulkInsert(
-      'Games_statistics',
+      'Games',
       [
         {
           user_id: 1,
