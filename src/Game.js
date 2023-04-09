@@ -6,6 +6,7 @@ const Hero = require('./game-models/Hero');
 const Enemy = require('./game-models/Enemy');
 const Boomerang = require('./game-models/Boomerang');
 const runInteractiveConsole = require('./keyboard');
+const { User, Games_statistic } = require("../db/models");
 
 const boomerang = new Boomerang();
 const View = require('./View');
@@ -23,7 +24,26 @@ class Game {
     this.backgroundMusic = new BackgroundMusic();
     this.regenerateTrack();
     this.scores = 0;
+    this.enemies_count = 0;
   }
+
+  fillInDataBase = async () =>  {
+    try {
+      const player = await User.findOrCreate({
+        where: { username: `${process.argv[2]}` },
+      });
+      const result = await Games_statistic.create({
+        user_id: player[0].dataValues.id,
+        scores: this.hero.scores,
+        enemies_count: this.enemies_count,
+      });
+      this.hero.scores = 0;
+      process.exit();
+      return result;
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   regenerateTrack() {
     // Сборка всего необходимого (герой, враг(и), оружие)
@@ -39,6 +59,7 @@ class Game {
       this.backgroundMusic.twirl();
       this.enemy.die();
       this.hero.scores += 5;
+      this.enemies_count += 1;
       this.hero.boomerang.position = this.hero.position + 1;
       setInterval(() => {
         this.hero.boomerang.moveLeft();
@@ -47,9 +68,9 @@ class Game {
     if (this.hero.position === this.enemy.position) {
       this.backgroundMusic.hold();
       this.hero.die();
+      this.fillInDataBase();
     }
   }
-
 
   play() {
     this.backgroundMusic.glitch();

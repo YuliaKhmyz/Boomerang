@@ -8,6 +8,7 @@ class Hero {
     this.boomerang = boomerang;
     this.hasBoomerang = true;
     this.scores = 0;
+    this.enemies_count = 0;
   }
 
   moveLeft() {
@@ -31,7 +32,8 @@ class Hero {
   die() {  
     this.skin = '💀';
     console.log(`\x1b[37mYOU ARE DEAD!💀`);
-    console.log(`\x1b[34mYOUR SCORE IS ${this.scores}\n`)
+    console.log(`\x1b[34mYOUR SCORE IS \x1b[31m${this.scores}`);
+    console.log(`\x1b[34mYOUR ENEMIES COUNT IS \x1b[31m${this.enemies_count}\n`);
     process.exit();
   }
 }
