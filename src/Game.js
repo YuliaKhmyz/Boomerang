@@ -6,7 +6,7 @@ const Hero = require('./game-models/Hero');
 const Enemy = require('./game-models/Enemy');
 const Boomerang = require('./game-models/Boomerang');
 const runInteractiveConsole = require('./keyboard');
-const { User, Game, sequelize } = require('../db/models');
+const { User, Game } = require('../db/models');
 
 const boomerang = new Boomerang();
 const View = require('./View');
@@ -48,9 +48,9 @@ class GameMain {
     if (this.hero.position === this.enemy.position) {
       const user = await User.findOne({ where: { username: `${process.argv[2]}` }, include: [Game] });
       await user.createGame({
-            scores: this.hero.scores,
-            enemies_count: this.enemies_count,
-          });
+        scores: this.hero.scores,
+        enemies_count: this.hero.enemies_count,
+      });
       this.backgroundMusic.hold();
       this.hero.die();
     }
