@@ -23,27 +23,7 @@ class GameMain {
     this.track = [];
     this.backgroundMusic = new BackgroundMusic();
     this.regenerateTrack();
-    this.enemies_count = 0;
   }
-
-  async fillInDataBase() {
-    const name = `${process.argv[2]}`;
-    try {
-      const user = await User.create({
-        where: { username: name },
-      });
-
-      await Game.create({
-        user_id: user[0].dataValues.id,
-        scores: this.hero.scores,
-        enemies_count: this.enemies_count,
-      });
-
-      await sequelize.close();
-    } catch (err) {
-      console.log(err);
-    }
-  };
 
   regenerateTrack() {
     // Сборка всего необходимого (герой, враг(и), оружие)
@@ -54,26 +34,31 @@ class GameMain {
     this.track[this.enemy.position] = this.enemy.skin;
   }
 
-  check() {
+  async check() {
     if(this.hero.boomerang.position >= this.enemy.position) {
       this.backgroundMusic.twirl();
       this.enemy.die();
       this.hero.scores += 5;
-      this.enemies_count += 1;
+      this.hero.enemies_count += 1;
       this.hero.boomerang.position = this.hero.position + 1;
       setInterval(() => {
         this.hero.boomerang.moveLeft();
       }, 50);
     }
     if (this.hero.position === this.enemy.position) {
-      this.fillInDataBase();
+      const user = await User.findOne({ where: { username: `${process.argv[2]}` }, include: [Game] });
+      await user.createGame({
+            scores: this.hero.scores,
+            enemies_count: this.enemies_count,
+          });
       this.backgroundMusic.hold();
       this.hero.die();
     }
   }
 
-  play() {
+  async play() {
     this.backgroundMusic.glitch();
+    await User.create({ username: `${process.argv[2]}` });
     runInteractiveConsole(this.hero, this.track.length);
 
     setInterval(() => {
