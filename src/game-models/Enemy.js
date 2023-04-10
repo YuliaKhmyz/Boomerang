@@ -20,8 +20,6 @@ class Enemy {
     this.position = undefined;
     this.generateSkin();
     this.position = 50;
-    // this.position = this.generateSkin();
-    // console.log('Enemy is dead!');
   }
 }
 
