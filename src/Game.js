@@ -6,6 +6,7 @@ const Hero = require('./game-models/Hero');
 const Enemy = require('./game-models/Enemy');
 const Boomerang = require('./game-models/Boomerang');
 const runInteractiveConsole = require('./keyboard');
+const { User, Game } = require('../db/models');
 
 const boomerang = new Boomerang();
 const View = require('./View');
@@ -13,7 +14,7 @@ const View = require('./View');
 // Основной класс игры.
 // Тут будут все настройки, проверки, запуск.
 
-class Game {
+class GameMain {
   constructor({ trackLength }) {
     this.trackLength = trackLength;
     this.hero = new Hero(0, boomerang); // Герою можно аргументом передать бумеранг.
@@ -22,7 +23,6 @@ class Game {
     this.track = [];
     this.backgroundMusic = new BackgroundMusic();
     this.regenerateTrack();
-    this.scores = 0;
   }
 
   regenerateTrack() {
@@ -34,25 +34,31 @@ class Game {
     this.track[this.enemy.position] = this.enemy.skin;
   }
 
-  check() {
+  async check() {
     if(this.hero.boomerang.position >= this.enemy.position) {
       this.backgroundMusic.twirl();
       this.enemy.die();
       this.hero.scores += 5;
+      this.hero.enemies_count += 1;
       this.hero.boomerang.position = this.hero.position + 1;
       setInterval(() => {
         this.hero.boomerang.moveLeft();
       }, 50);
     }
     if (this.hero.position === this.enemy.position) {
+      const user = await User.findOne({ where: { username: `${process.argv[2]}` }, include: [Game] });
+      await user.createGame({
+        scores: this.hero.scores,
+        enemies_count: this.hero.enemies_count,
+      });
       this.backgroundMusic.hold();
       this.hero.die();
     }
   }
 
-
-  play() {
+  async play() {
     this.backgroundMusic.glitch();
+    await User.create({ username: `${process.argv[2]}` });
     runInteractiveConsole(this.hero, this.track.length);
 
     setInterval(() => {
@@ -65,4 +71,4 @@ class Game {
   }
 }
 
-module.exports = Game;
+module.exports = GameMain;
